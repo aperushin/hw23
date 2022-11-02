@@ -1,6 +1,10 @@
 import os
 
-from flask import Flask
+from flask import Flask, request, jsonify
+from marshmallow.exceptions import ValidationError
+
+from models import RequestParams
+from builder import build_query
 
 app = Flask(__name__)
 
@@ -10,8 +14,18 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 
 @app.route("/perform_query")
 def perform_query():
-    # получить параметры query и file_name из request.args, при ошибке вернуть ошибку 400
-    # проверить, что файла file_name существует в папке DATA_DIR, при ошибке вернуть ошибку 400
-    # с помощью функционального программирования (функций filter, map), итераторов/генераторов сконструировать запрос
-    # вернуть пользователю сформированный результат
-    return app.response_class('', content_type="text/plain")
+    try:
+        query_params = RequestParams().load(request.args)
+    except ValidationError as e:
+        return jsonify(e.messages), 400
+
+    try:
+        result = build_query(query_params)
+    except FileNotFoundError as e:
+        return jsonify(e.strerror), 400
+
+    return jsonify(result), 200
+
+
+if __name__ == '__main__':
+    app.run()
