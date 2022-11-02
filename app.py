@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, request, jsonify
 from marshmallow.exceptions import ValidationError
 
@@ -7,9 +5,7 @@ from models import RequestParams
 from builder import build_query
 
 app = Flask(__name__)
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 @app.route("/perform_query")

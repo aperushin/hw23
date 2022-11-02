@@ -1,7 +1,6 @@
+from constants import VALID_CMDS
 from marshmallow import Schema, fields, validates_schema
 from marshmallow.exceptions import ValidationError
-
-VALID_CMDS = {'filter', 'map', 'unique', 'sort', 'limit'}
 
 
 class RequestParams(Schema):

@@ -1,7 +1,7 @@
 from typing import Generator
 from functions import filter_query, map_query, unique_query, sort_query, limit_query
+from constants import DATA_DIR
 
-FILE_NAME = 'data/apache_logs.txt'
 CMD_TO_FUNCTION = {
     'filter': filter_query,
     'map': map_query,
@@ -18,7 +18,7 @@ def iter_file(filename: str) -> Generator:
 
 
 def build_query(cmd: dict):
-    data = iter_file(cmd['file'])
+    data = iter_file(DATA_DIR + cmd['file'])
     result = CMD_TO_FUNCTION[cmd['cmd1']](data=data, param=cmd['value1'])
     result = CMD_TO_FUNCTION[cmd['cmd2']](data=result, param=cmd['value2'])
     return list(result)
