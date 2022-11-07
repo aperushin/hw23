@@ -8,7 +8,7 @@ class RequestParams(Schema):
     cmd2 = fields.String(required=True)
     value1 = fields.String(required=True)
     value2 = fields.String(required=True)
-    file = fields.String(required=True)
+    file_name = fields.String(required=True)
 
     @validates_schema
     def validate_cmd_params(self, values, **kwargs):

@@ -8,10 +8,10 @@ app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
-@app.route("/perform_query")
+@app.post("/perform_query")
 def perform_query():
     try:
-        query_params = RequestParams().load(request.args)
+        query_params = RequestParams().load(request.json)
     except ValidationError as e:
         return jsonify(e.messages), 400
 
